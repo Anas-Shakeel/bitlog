@@ -1,0 +1,105 @@
+{% extends "layout.html" %} {% load static %}
+
+<!-- Title -->
+{% block title %}User Profile of {{profile.user.username}}{% endblock title %}
+
+<!-- Content -->
+{% block content %}
+
+<!-- Banner -->
+<div class="profile-banner mb-1">
+    <img src="" alt="" />
+</div>
+
+<!-- Profile Detail -->
+<div class="profile-detail-container">
+    <!-- Avatar (Profile Picture) -->
+    {% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" alt="avatar" class="avatar avatar-large" />
+    {% else %}
+    <img src='{% static "icons/avatar.svg" %}' alt="avatar" class="avatar avatar-large" />
+    {% endif %}
+
+    <!-- Profile Details -->
+    <div class="flex flex-column gap-10">
+        <div>
+            <!-- Header -->
+            <div class="flex justify-between">
+                <h2 class="heading-main">
+                    <!-- Name -->
+                    {% if profile.fullname %} {{profile.fullname}} {% else %} {{profile.user.username}} {% endif %}
+                </h2>
+
+                <!-- Actions Buttons -->
+                <div>
+                    <!-- Action buttons (Follow, Unfollow, Edit) -->
+                    <!-- Only when user does not already follow this -->
+                    {% if request.user != profile.user %}
+                    <!-- Follow button -->
+                    {% if not already_following %}
+                    <a href="{% url 'users:follow_user' profile.user.username %}" class="btn btn-primary">Follow</a>
+                    {% else %}
+                    <!-- Unfollow button -->
+                    <a href="{% url 'users:unfollow_user' profile.user.username %}" class="btn btn-tertiary"
+                        >Unfollow</a
+                    >
+                    {% endif %} {% else %}
+                    <!-- Edit Profile Button -->
+                    <a href="{% url 'users:edit_profile' profile.user.username %}" class="btn btn-tertiary"
+                        >Edit Profile</a
+                    >
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Username / Followers -->
+            <div class="flex gap-10">
+                <p class="accent-text">@{{profile.user.username}}</p>
+                <span><strong>{{followers.count}}</strong> Followers</span>
+            </div>
+        </div>
+
+        <!-- Bio -->
+        <div>
+            {% if profile.bio %}
+            <p>{{profile.bio}}</p>
+            {% else %}
+            <p>No bio.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<div class="profile-tabs">
+    <!-- Tab Buttons -->
+    <div class="profile-tab-btns-container">
+        <button class="btn btn-tabs btn-tabs-active">Posts ({{profile.user.posts.count}})</button>
+
+        {% if profile.user == request.user %}
+        <button class="btn btn-tabs">Saved Posts ({{profile.user.save_set.count}})</button>
+        {% endif %}
+        <span class="tabs-hr"></span>
+    </div>
+
+    <!-- Tab Containers -->
+    <div class="profile-tab-container">
+        <!-- Posts -->
+        <div class="">
+            {% for post in profile.user.posts.all %} {% include "components/card.html" %} {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <a href="#" class="pagination-link pagination-link-disabled">&Lt;</a>
+            <a href="#" class="pagination-link pagination-link-disabled">&lt;</a>
+            <a href="#" class="pagination-link pagination-link-active">1</a>
+            <a href="#" class="pagination-link">2</a>
+            <a href="#" class="pagination-link">3</a>
+            <a href="#" class="pagination-link">&gt;</a>
+            <a href="#" class="pagination-link">&Gt;</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

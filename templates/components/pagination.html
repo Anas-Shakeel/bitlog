@@ -1,0 +1,38 @@
+{% comment %} Needs: (page_obj, and page_range) {% endcomment %}
+
+<div class="pagination-container">
+    <!-- Previous Buttons -->
+    {% if page_obj.has_previous %}
+    <a href="?{% if query %}query={{query}}&{% endif %}page=1" class="pagination-link">&Lt;</a>
+    <a href="?{% if query %}query={{query}}&{% endif %}page={{page_obj.previous_page_number}}" class="pagination-link"
+        >&lt;</a
+    >
+    {% else %}
+    <a class="pagination-link pagination-link-disabled">&Lt;</a>
+    <a class="pagination-link pagination-link-disabled">&lt;</a>
+    {% endif %}
+
+    <!-- Page Range -->
+    {% if page_range %}
+    <!-- Iterate Page Range -->
+    {% for page in page_range %} {% if page_obj.number == page %}
+    <a class="pagination-link pagination-link-active">{{page}}</a>
+    {% else %}
+    <a href="?{% if query %}query={{query}}&{% endif %}page={{page}}" class="pagination-link">{{page}}</a>
+    {% endif %}
+    <!--  -->
+    {% endfor %} {% endif %}
+
+    <!-- Next Buttons -->
+    {% if page_obj.has_next %}
+    <a href="?{% if query %}query={{query}}&{% endif %}page={{ page_obj.next_page_number }}" class="pagination-link"
+        >&gt;</a
+    >
+    <a href="?{% if query %}query={{query}}&{% endif %}page={{ page_obj.paginator.num_pages }}" class="pagination-link"
+        >&Gt;</a
+    >
+    {% else %}
+    <a class="pagination-link pagination-link-disabled">&gt;</a>
+    <a class="pagination-link pagination-link-disabled">&Gt;</a>
+    {% endif %}
+</div>

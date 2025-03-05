@@ -1,0 +1,314 @@
+{% extends "layout.html" %}
+<!-- Load Stuff -->
+{% load static %} {% load markdown_extras %}
+
+<!-- Title -->
+{% block title %}{{post.title}}{% endblock title %}
+
+<!-- Blog Post -->
+{% block content %}
+<!-- Post Info -->
+<div class="flex flex-column">
+    <div class="flex align-center justify-between mb-half">
+        <p class="fs-small fc-light">Published on {{post.created_at|date:"F d, Y"}}</p>
+        <!-- Actions Buttons -->
+        {% if request.user.is_authenticated and request.user == post.author %}
+        <div style="display: flex; gap: 1rem">
+            <!-- Edit Button -->
+            <a href="{% url 'edit_post' post.slug %}" class="btn btn-tertiary">Edit Post</a>
+            <!-- Delete Button (Form) -->
+            <form action="{% url 'delete_post' post.slug %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-tertiary btn-danger">Delete Post</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div>
+        <h1 class="heading-main">{{post.title}}</h1>
+        <!-- Only if caption available -->
+        <p>{% if post.caption %} {{post.caption}} {% else %} No Caption. {% endif %}</p>
+    </div>
+
+    <!-- User -->
+    <div class="flex align-center gap-10 mt-1">
+        <!-- Avatar -->
+        {% if post.author.profile.profile_picture %}
+        <img src="{{post.author.profile.profile_picture.url}}" alt="" class="avatar avatar-small" />
+        {% else %}
+        <img src="{% static 'icons/avatar.svg' %}" alt="" class="avatar avatar-small" />
+        {% endif %}
+
+        <!-- Profile Details -->
+        <div class="flex align-center gap-20">
+            {% if post.author %}
+            <!-- Header -->
+            <div class="flex flex-column justify-between">
+                <a href="{% url 'users:user_profile' post.author.username %}" class="link-secondary fw-bold"
+                    >{{post.author}}</a
+                >
+                <p class="fs-small">{{post.author.followers.count}} Followers</p>
+            </div>
+            {% else %}
+            <!-- User was deleted -->
+            <div class="flex flex-column justify-between">
+                <span class="fw-bold error-text"><strike>user-deleted</strike></span>
+                <!-- <p class="fs-small">0 Followers</p> -->
+            </div>
+            {% endif %}
+
+            <!-- If user is not author and author is not deleted -->
+            {% if request.user != post.author and post.author %}
+            <!-- Follow/Unfollow button -->
+            {% if not already_following %}
+            <a href="{% url 'users:follow_user' post.author.username %}" class="btn btn-primary">Follow</a>
+            {% else %}
+            <!-- Unfollow button -->
+            <a href="{% url 'users:unfollow_user' post.author.username %}" class="btn btn-tertiary">Unfollow</a>
+            {% endif %}
+            <!--  -->
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Metadata -->
+<div class="flex justify-between mt-1 mb-half">
+    <span class="card-likes-comments">
+        <span class="icon-text-container">
+            <form action="{% url 'like_post' post.slug %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Like" />
+            </form>
+            <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+            {{post.likes.count}}
+        </span>
+        <span class="icon-text-container">
+            <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
+            {{post.comments.count}}
+        </span>
+    </span>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-10">
+        <!-- Save Post -->
+        <form action="{% url 'save_post' post.slug %}" method="post">
+            {% csrf_token %} {% if post_saved %}
+            <button class="btn btn-tertiary btn-with-icon">
+                <img src="{% static 'icons/icons8_bookmark.svg' %}" alt="" class="icon icon-small" />
+                Saved
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-tertiary btn-with-icon">
+                <img src="{% static 'icons/icons8_bookmark_1.svg' %}" alt="" class="icon icon-small" />
+                Save
+            </button>
+            {% endif %}
+        </form>
+
+        <!-- Share Post -->
+        <button class="btn btn-tertiary btn-with-icon">
+            <img src="{% static 'icons/icons8_Share_1.svg' %}" alt="" class="icon icon-small" />
+            Share
+        </button>
+    </div>
+</div>
+
+<hr />
+
+<!-- Post Content Container (MARKDOWN) -->
+<div class="content-container markdown">{{post.content|markdownify|safe}}</div>
+<!-- Post END -->
+
+<!-- Tags -->
+{% if post.tags.all %}
+<div class="card-footer mb-1">
+    <!-- Iterate tags -->
+    {% for tag in post.tags.all %}
+    <a class="tag-pill" href="#">{{tag.name}}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Category -->
+{% if post.category %}
+<p>Category: {{post.category}}</p>
+{% endif %}
+
+<!-- Metadata -->
+<hr />
+<div class="flex justify-between mt-half mb-half">
+    <span class="card-likes-comments">
+        <!-- Likes -->
+        <span class="icon-text-container">
+            <form action="{% url 'like_post' post.slug %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Like" />
+            </form>
+            <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+            {{post.likes.count}}
+        </span>
+
+        <!-- Comments -->
+        <span class="icon-text-container">
+            <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
+            {{post.comments.count}}
+        </span>
+    </span>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-10">
+        <!-- Save Post -->
+        <form action="{% url 'save_post' post.slug %}" method="post">
+            {% csrf_token %} {% if post_saved %}
+            <button class="btn btn-tertiary btn-with-icon">
+                <img src="{% static 'icons/icons8_bookmark.svg' %}" alt="" class="icon icon-small" />
+                Saved
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-tertiary btn-with-icon">
+                <img src="{% static 'icons/icons8_bookmark_1.svg' %}" alt="" class="icon icon-small" />
+                Save
+            </button>
+            {% endif %}
+        </form>
+
+        <!-- Share Post -->
+        <button class="btn btn-tertiary btn-with-icon">
+            <img src="{% static 'icons/icons8_Share_1.svg' %}" alt="" class="icon icon-small" />
+            Share
+        </button>
+    </div>
+</div>
+<hr />
+
+<!-- Comments Section -->
+<div class="comments-section mt-2 mb-1">
+    <h2>Comments ({{post.comments.count}})</h2>
+    <!-- Comment Box -->
+    <form
+        action="{% url 'comment_on_post' post.slug %}"
+        method="post"
+        class="comment-box mt-1 flex flex-column align-end">
+        {% csrf_token %}
+        <!-- Comment Content Field -->
+        {{comment_form.content}}
+        <button type="submit" class="btn btn-primary mt-half">Comment</button>
+    </form>
+
+    <!-- Comments-->
+    <div>
+        {% if post.comments.count %}
+        <!-- Iterate Comments -->
+        {% for comment in post.comments.all %}
+        <div class="mt-1 mb-1">
+            <!-- Head -->
+            <div class="flex gap-10 align-center">
+                <!-- Avatar -->
+                {% if comment.user.profile.profile_picture %}
+                <img src="{{comment.user.profile.profile_picture.url}}" alt="" class="avatar avatar-small" />
+                {% else %}
+                <div class="avatar avatar-small"></div>
+                {% endif %}
+
+                <!-- User -->
+                <div class="flex flex-column justify-between">
+                    <!-- If Comment-writer not deleted -->
+                    {% if comment.user %}
+                    <a href="{% url 'users:user_profile' comment.user.username %}" class="link-secondary"
+                        >{{comment.user}}</a
+                    >
+                    {% else %}
+                    <span class="error-text"><strike>user-deleted</strike></span>
+                    {% endif %}
+                    <p class="fs-small fc-light">about {{comment.created_at|timesince}} ago</p>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="mt-half">
+                <p>{{comment.content}}</p>
+            </div>
+        </div>
+        <hr />
+        {% endfor %}
+        <button class="btn btn-tertiary mt-1">See all comments</button>
+        {% endif %}
+    </div>
+</div>
+<hr />
+
+<!-- Author Deleted? -->
+{% if post.author %}
+
+<!-- Author's other posts (CARDS) -->
+<div class="mt-1">
+    <h2 class="fc-normal">More from <span class="fc-darker">{{post.author}}</span></h2>
+
+    <!-- Cards Container -->
+    <div class="card-compact-container">
+        {% for user_post in user_posts %}
+        <!-- Card -->
+        <div class="card-compact">
+            <div class="flex flex-column gap-10">
+                <!-- Image -->
+                <div class="card-compact-img-container">
+                    {% if user_post.cover_image %}
+                    <img src="{{user_post.cover_image.url}}" alt="{{user_post.slug}}-cover" class="" />
+                    {% else %}
+                    <img src="{% static 'icons/default-image.png' %}" alt="{{user_post.slug}}-cover" class="" />
+                    {% endif %}
+                </div>
+
+                <!-- Info -->
+                <div class="flex flex-column gap-5">
+                    <!-- Title -->
+                    <a href="{% url 'blog_detail' user_post.slug %}" class="card-title fw-bold"
+                        >{{user_post.title|truncatechars:70}}</a
+                    >
+
+                    <!-- Caption -->
+                    <p class="card-caption">
+                        {% if user_post.caption %}
+                        <!-- Only if caption available -->
+                        {{user_post.caption|truncatechars:70}} {% else %}
+                        <!-- Default -->
+                        No Caption. {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-content-meta-container">
+                <span class="card-likes-comments">
+                    <!-- Likes -->
+                    <span class="icon-text-container">
+                        <form action="{% url 'like_post' user_post.slug %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Like" />
+                        </form>
+                        <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+                        {{user_post.likes.count}}
+                    </span>
+
+                    <!-- Comments -->
+                    <span class="icon-text-container">
+                        <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
+                        {{user_post.comments.count}}
+                    </span>
+                </span>
+
+                <span>{{user_post.created_at|date:"F d, Y"}}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr />
+    <a href="{% url 'users:user_profile' post.author.username %}" class="btn btn-tertiary mt-1"
+        >See all from <span class="fw-bold">{{post.author}}</span></a
+    >
+</div>
+
+{% endif %} {% endblock content %}

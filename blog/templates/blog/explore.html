@@ -1,0 +1,69 @@
+{% extends "layout.html" %} 
+
+<!-- Load Stuff -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}Explore{% endblock title %}
+
+<!-- Blog List -->
+
+{% block content %}
+
+<!-- Explore Header -->
+<form class="content-header" action="{% url 'explore' %}" method="get">
+    <!-- Content-Header Upper (Search and Title) -->
+    <div class="content-header-titlebar">
+        <h1 class="heading-main">
+            <!-- Showing results or EXPLORE -->
+            {% if query %}
+            <span class="fc-light">Results For</span> {{query}} {% else %} Explore Blogs {% endif %}
+        </h1>
+        <!-- Search bar -->
+        <div class="searchbar">
+            <input
+                name="query"
+                type="search"
+                value="{{query}}"
+                class="input search-input"
+                maxlength="100"
+                placeholder="Search blogs or profiles" />
+            <button class="btn btn-primary">Search</button>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <hr />
+</form>
+
+<!-- Categories -->
+<div class="mt-1">
+    <!-- All Category -->
+    <a href="{% url 'explore' %}" class="tag-pill {% if not category_slug %}tag-pill-active{% endif %}">All</a>
+
+    <!-- Iterate Categories -->
+    {% for category in categories %}
+    <a
+        href="{% url 'category' category.slug %}"
+        class="tag-pill {% if category_slug == category.slug %}tag-pill-active{% endif %}"
+        >{{category.name}}</a
+    >
+    {% endfor %}
+</div>
+
+{% if page_obj %}
+<div class="">
+    <!-- Iterate blogs -->
+    {% for post in page_obj %} {% include "components/card.html" with show_author="true" %} {% endfor %}
+    
+    <!-- Pagination -->
+    {% include "components/pagination.html" %}
+</div>
+{% else %}
+<div class="flex align-center justify-center mt-2 mb-1">
+    <span class="fs-large fw-bold">No Results Found.</span>
+</div>
+{% endif %}
+
+<!-- EndBlock -->
+{% endblock content %}

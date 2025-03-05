@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}Create an account{% endblock title %}
+
+<!-- Content -->
+{% block content %}
+
+<div class="auth-container">
+    <div class="auth-box">
+        <p class="auth-greet">
+            Welcome to <span class="logo">Bit<span>Log</span></span>
+        </p>
+        <div>
+            <h2 class="auth-title">Sign Up</h2>
+            <p class="auth-subtext">Please create your account.</p>
+        </div>
+
+        <!-- Actual Form -->
+        <form action="" method="post" class="auth-form">
+            {% csrf_token %}
+            <!-- Username -->
+            <div class="auth-form-field-group">
+                <label for="username">Username</label>
+                {{form.username}}
+                <!-- Errors -->
+                {% if form.username.errors %}
+                <div class="form-field-error-group">
+                    <span>{{form.username.errors|first}}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="auth-form-field-group">
+                <label for="email">Email</label>
+                {{form.email}}
+                <!-- Errors -->
+                {% if form.email.errors %}
+                <div class="form-field-error-group">
+                    <span>{{form.email.errors|first}}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="auth-form-field-group">
+                <label for="password1">Password</label>
+                {{form.password1}}
+                <!-- Errors -->
+                {% if form.password1.errors %}
+                <div class="form-field-error-group">
+                    <!-- <span>{{form.password1.errors.0}}</span> -->
+                    <span>{{form.password1.errors|first}}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Password Confirmation -->
+            <div class="auth-form-field-group">
+                <label for="password2">Re-type Password</label>
+                {{form.password2}}
+                <!-- Errors -->
+                {% if form.password2.errors %}
+                <div class="form-field-error-group">
+                    <!-- <span>{{form.password2.errors.as_data.0.message}}</span> -->
+                    <span>{{form.password2.errors|first}}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <input class="btn btn-primary width-full" type="submit" value="Create my account" />
+        </form>
+
+        <div class="auth-action-container">
+            <div class="auth-action">
+                <p>Already have an account?</p>
+                <a href="{% url 'accounts:login' %}" class="link-primary fw-semibold">Sign In</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<h1>Sign up</h1>
+
+<!-- ORIGINAL (working) -->
+<form action="" method="post">
+    {% csrf_token %}
+    <!-- Form -->
+    {% for field in form %}
+    <div>
+        {{field.label_tag}}
+        <!-- Field -->
+        {{field}}
+        <p>{{field.errors.as_data.0.message}}</p>
+    </div>
+    {% endfor %}
+
+    <div style="display: flex; flex-direction: column">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Username" required autofocus autocomplete="on" />
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Email" required autocomplete="off" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password" required autocomplete="off" />
+        </div>
+        <div>
+            <input type="submit" value="Create my account" />
+        </div>
+        <div class="or-container">
+            <hr />
+            <p>OR</p>
+            <hr />
+        </div>
+        <p>Already have an account?<a href="{% url 'accounts:login' %}" style="color: lightblue">Log In</a></p>
+    </div>
+</form>

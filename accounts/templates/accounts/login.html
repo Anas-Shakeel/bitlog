@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}Login to bitlog{% endblock title %}
+
+<!-- Content -->
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">
+        <p class="auth-greet">Welcome back</p>
+        <div>
+            <h2 class="auth-title">Sign In</h2>
+            <p class="auth-subtext">Please sign in to your account.</p>
+        </div>
+
+        <!-- Form Errors -->
+        {% if form_error %}
+        <div class="form-field-error-group">
+            <span>{{form_error}}</span>
+        </div>
+        {% endif %}
+
+        <!-- Actual Form -->
+        <form action="" method="post" class="auth-form">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="auth-form-field-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="input {% if form_error %}form-input-error{% endif %}"
+                    placeholder="e.g. johndoe"
+                    autofocus
+                    required />
+            </div>
+
+            <!-- Password -->
+            <div class="auth-form-field-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="input {% if form_error %}form-input-error{% endif %}"
+                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                    required
+                    autocomplete="off" />
+            </div>
+
+            <input class="btn btn-primary width-full" type="submit" value="Sign In" />
+        </form>
+
+        <div class="auth-action-container">
+            <div class="auth-action">
+                <a href="#" class="link-primary">Forgot password?</a>
+            </div>
+
+            <div class="auth-action">
+                <p>Don't have an account?</p>
+                <a href="{% url 'accounts:signup' %}" class="link-primary">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- ORIGINAL -->
+
+<h1>Login</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        <div>
+            <input type="text" name="username" placeholder="Username" required autofocus autocomplete="off" />
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Password" required autocomplete="off" />
+        </div>
+        <div>
+            <input type="submit" value="Login" />
+        </div>
+
+        <p>Don't have an account?<a href="{% url 'accounts:signup' %}" style="color: lightblue">Sign Up</a></p>
+    </div>
+</form>

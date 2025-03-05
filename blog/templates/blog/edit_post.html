@@ -1,0 +1,136 @@
+{% extends "layout.html" %} {% load static %}
+
+<!-- Title -->
+{% block title %}Edit post{% endblock title %}
+
+<!-- Scripts (main.js) -->
+{% block scripts %}
+<script src='{% static "js/main.js" %}'></script>
+{% endblock scripts %}
+
+<!-- Content -->
+{% block content %}
+
+<!-- Post-Create Form -->
+<div class="form-container">
+    <!-- Title -->
+    <div class="form-titlebar">
+        <h1 class="heading-main">Edit your article</h1>
+    </div>
+
+    <!-- Form -->
+    <form id="tagsForm" class="form" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Cover Image -->
+        <div class="form-field-group">
+            <label for="file-upload" class="form-field-label">Cover Image <span>(Optional)</span></label>
+
+            <!-- Field -->
+            <div class="form-field-container">
+                <label for="file-upload" id="fileUpload" class="btn btn-tertiary">Upload File</label>
+                {{form.cover_image}}
+                <p class="file-upload-name" id="filename">{{form.cover_image.value}}</p>
+            </div>
+            <!-- Errors -->
+            {% if form.cover_image.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.cover_image.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Title -->
+        <div class="form-field-group">
+            <label for="id_title" class="form-field-label">Title</label>
+            {{form.title}}
+            <!-- Errors -->
+            {% if form.title.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.title.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Caption -->
+        <div class="form-field-group">
+            <label for="caption" class="form-field-label">Caption <span>(Optional)</span></label>
+            {{form.caption}}
+
+            <!-- Errors -->
+            {% if form.caption.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.caption.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Content -->
+        <div class="form-field-group">
+            <label for="content" class="form-field-label">Content</label>
+            {{form.content}}
+
+            <!-- Errors -->
+            {% if form.content.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.content.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Category -->
+        <div class="form-field-group">
+            <label for="category" class="form-field-label">Category <span>(Optional)</span></label>
+            {{form.category}}
+
+            <!-- Errors -->
+            {% if form.category.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.category.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tags -->
+        <div class="form-field-group">
+            <label for="tagsInput" class="form-field-label">Tags <span>(Optional)</span></label>
+            <input
+                id="tagsInput"
+                name="tags"
+                type="text"
+                class="form-input"
+                list="tags"
+                placeholder="Type a tag and press enter" />
+            <!-- Tags list (to choose from) -->
+            <datalist id="tags">
+                {% for tag in all_tags %}
+                <option value="{{tag}}">{{tag}}</option>
+                {% endfor %}
+            </datalist>
+            <!-- (Visible) Tag-Pills container -->
+            <div id="tagsContainer" class="tags-container">
+                {% for tag in form_tags %}
+                <input type="hidden" name="all_tags" value="{{tag.name}}" />
+                <span class="tag-pill" onclick="removeTag(this.innerHTML, this)">{{tag.name}}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-action-group mt-1 mb-2">
+            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-tertiary">Discard</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

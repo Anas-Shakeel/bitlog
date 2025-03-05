@@ -1,0 +1,79 @@
+{% load static %}
+
+<!-- Card -->
+<div class="card">
+    <!-- Only show author if asked to... -->
+    {% if show_author %}
+
+    <!-- Author Available? -->
+    {% if post.author %}
+    <!-- Header (avatar and username) -->
+    <a href="{% url 'users:user_profile' post.author.username %}" class="card-header">
+        <!-- Avatar -->
+        {% if post.author.profile.profile_picture %}
+        <img src="{{post.author.profile.profile_picture.url}}" alt="" class="avatar avatar-small" />
+        {% else %}
+        <img src="{% static 'icons/avatar.svg' %}" alt="" class="avatar avatar-small" />
+        {% endif %}
+        <!-- Username -->
+        <span class="card-username">{{post.author}}</span>
+    </a>
+    {% else %}
+    <!-- User was deleted -->
+    <span class="card-header">
+        <img src="{% static 'icons/avatar.svg' %}" alt="" class="avatar avatar-small" />
+        <span class="fs-small error-text"><strike>user-deleted</strike></span>
+    </span>
+    {% endif %} {% endif %}
+
+    <!-- Content (title, caption, image etc) -->
+    <div class="card-content-container">
+        <!-- Content Container -->
+        <div class="card-content">
+            <div>
+                <!-- Title -->
+                <a href="{% url 'blog_detail' post.slug %}" class="card-title fw-bold"> {{post.title}} </a>
+
+                <!-- Caption -->
+                <p class="card-caption">
+                    <!-- Only if caption available -->
+                    {% if post.caption %} {{post.caption}} {% else %} No Caption. {% endif %}
+                </p>
+            </div>
+
+            <!-- Metadata -->
+            <div class="card-content-meta-container">
+                <span class="card-likes-comments">
+                    <span class="icon-text-container">
+                        <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+                        {{post.likes.count}}
+                    </span>
+                    <span class="icon-text-container">
+                        <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
+                        {{post.comments.count}}
+                    </span>
+                </span>
+                <span>{{post.created_at|date:"F d, Y"}}</span>
+            </div>
+        </div>
+
+        <!-- Img Container -->
+        <div class="card-img-container">
+            {% if post.cover_image %}
+            <img src="{{post.cover_image.url}}" alt="{{post.slug}}-cover" class="" />
+            {% else %}
+            <img src="{% static 'icons/default-image.png' %}" alt="{{post.slug}}-cover" class="" />
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer (tags, categories etc) -->
+    {% if post.tags.all %}
+    <div class="card-footer">
+        <!-- Iterate tags -->
+        {% for tag in post.tags.all %}
+        <a class="tag-pill" href="#">{{tag.name}}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}Explore{% endblock title %}
+
+<!-- Blog List -->
+
+{% block content %}
+
+<h2>Search</h2>
+
+<!-- Search bar -->
+<div class="search-container" style="width: 100%">
+    <form action="{% url 'search' %}" method="get" style="display: flex; align-items: center">
+        <input
+            type="search"
+            name="query"
+            value="{{query}}"
+            placeholder="Search posts"
+            style="
+                width: 100%;
+                height: 2rem;
+                background-color: transparent;
+                border: 1px solid darkseagreen;
+                color: darkseagreen;
+            " />
+
+        <!-- New Sort -->
+        <select name="sort" onchange="this.form.submit()">
+            <option value="newest" {% if sort_by == "newest" %}selected{% endif %}>Newest</option>
+            <option value="oldest" {% if sort_by == "oldest" %}selected{% endif %}>Oldest</option>
+            <option value="most-liked" {% if sort_by == "most-liked" %}selected{% endif %}>Most Liked</option>
+        </select>
+        <!-- <input type="submit" value="Most Liked" style="height: 2rem; background-color: darkseagreen" /> -->
+        <input type="submit" value="Search" style="height: 2rem; background-color: darkseagreen" />
+    </form>
+</div>
+
+<form action="" method="get">
+    {% for category in categories %}
+      <strong>{{category.name}}</strong>
+    {% endfor %}
+</form>
+
+<!-- Iterate blogs -->
+{% for post in posts %}
+{% include "components/card.html" with show_author="true" %}
+{% endfor %} {% endblock content %}

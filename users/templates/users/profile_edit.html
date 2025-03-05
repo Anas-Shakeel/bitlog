@@ -1,0 +1,96 @@
+{% extends "layout.html" %} {% load static %}
+
+<!-- Title -->
+{% block title %}Update Profile{% endblock title %}
+
+<!-- Content -->
+{% block content %}
+
+<!-- Post-Create Form -->
+<div class="form-container">
+    <!-- Title -->
+    <div class="form-titlebar">
+        <h1 class="heading-main">Edit your profile</h1>
+    </div>
+
+    <!-- Form -->
+    <form class="form" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Profile Picture -->
+        <div class="form-field-group">
+            <label for="file-upload" class="form-field-label">Profile Picture <span>(Optional)</span></label>
+
+            <!-- Field -->
+            <div class="form-field-container">
+                <label for="file-upload" id="fileUpload" class="btn btn-tertiary">Upload File</label>
+                {{form.profile_picture}}
+                <p class="file-upload-name" id="filename">{{form.profile_picture.value}}</p>
+            </div>
+            <!-- Errors -->
+            {% if form.profile_picture.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.profile_picture.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Full Name -->
+        <div class="form-field-group">
+            <label for="id_title" class="form-field-label">Full Name <span>(Optional)</span></label>
+            {{form.fullname}}
+            <!-- Errors -->
+            {% if form.fullname.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.fullname.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Bio -->
+        <div class="form-field-group">
+            <label for="content" class="form-field-label">Bio <span>(Optional)</span></label>
+            {{form.bio}}
+
+            <!-- Errors -->
+            {% if form.bio.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.bio.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-action-group mt-1 mb-2">
+            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-tertiary">Discard</a>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
+    </form>
+
+    <script>
+        // For Custom File Upload Buttons
+        // It changes the innerHTML of id=filename element
+        function sub(obj) {
+            let filename = obj.value.split("\\");
+            document.getElementById("filename").innerHTML = filename[filename.length - 1];
+            // document.myForm.submit();
+            event.preventDefault();
+        }
+    </script>
+</div>
+
+{% endblock content %}
+
+<!-- ORIGINAL -->
+<div>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{form.as_p}}
+        <input type="submit" value="Save Changes" />
+    </form>
+</div>
