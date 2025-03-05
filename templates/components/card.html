@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load highlight %}
 
 <!-- Card -->
 <div class="card">
@@ -32,12 +32,18 @@
         <div class="card-content">
             <div>
                 <!-- Title -->
-                <a href="{% url 'blog_detail' post.slug %}" class="card-title fw-bold"> {{post.title}} </a>
+                <a href="{% url 'blog_detail' post.slug %}" class="card-title fw-bold">
+                    {% if query %} {{post.title|highlight:query|safe}} {% else %} {{post.title}} {% endif %}
+                </a>
 
                 <!-- Caption -->
                 <p class="card-caption">
                     <!-- Only if caption available -->
-                    {% if post.caption %} {{post.caption}} {% else %} No Caption. {% endif %}
+                    {% if post.caption %}
+                    <!-- Mark if searched -->
+                    {% if query %} {{post.caption|highlight:query|safe}} {% else %} {{post.caption}} {% endif %}
+                    <!-- ELSE -->
+                    {% else %} No Caption. {% endif %}
                 </p>
             </div>
 
