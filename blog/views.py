@@ -20,14 +20,18 @@ def home(request):
 
 def explore(request):
     query = request.GET.get("query", "")
+    posts = BlogPost.objects.none()
 
     # Search (Filter) posts
     if query:
-        posts = BlogPost.objects.filter(
-            Q(title__icontains=query)  # Look in title
-            | Q(caption__icontains=query)  # Look in caption
-            # | Q(content__icontains=query)  # Look in content
-        )
+        keywords = query.split()
+        q_objects = Q()
+
+        for word in keywords:
+            q_objects |= Q(title__icontains=word) | Q(caption__icontains=word)
+
+        posts = BlogPost.objects.filter(q_objects)
+
     else:
         posts = BlogPost.objects.all()
 
