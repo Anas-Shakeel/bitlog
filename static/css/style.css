@@ -109,6 +109,10 @@
     background-color: var(--accent-color-lightest);
 }
 
+mark {
+    background-color: var(--accent-color-lighter);
+}
+
 /* Default HTML Styling */
 h1,
 h2,
