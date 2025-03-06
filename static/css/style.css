@@ -52,8 +52,10 @@
     --img-placeholder-clr: rgb(242, 242, 242);
     --img-placeholder-clr-darker: #cccccc;
 
-    --svg-light-clr: #fff;
-    --svg-dark-clr: #5b5b5b;
+    --svg-clr-light: #fff;
+    --svg-clr-normal: #ccc;
+    --svg-clr-dark: #808080;
+    --svg-clr-darker: #5b5b5b;
 
     /* Font color */
     --fc-darkest: #000;
@@ -223,7 +225,8 @@ main {
 .container {
     min-width: 70vw;
     max-width: 74vw;
-    /* padding-top: 50px; */
+    /* min-width: 70vw; */
+    /* max-width: 74vw; */
     padding-top: 30px;
 }
 
@@ -690,10 +693,9 @@ main {
     border-radius: 100%;
     overflow: hidden;
     /* background-size: cover; */
-    
+
     aspect-ratio: 1/1;
     object-fit: cover;
-
 }
 .avatar-large {
     /* For Profile page */
@@ -713,7 +715,7 @@ main {
 
 /* Icons */
 .icon {
-    /* border: 1px solid; */
+    fill: var(--svg-clr-normal);
 }
 
 .icon-small {
@@ -721,8 +723,12 @@ main {
     height: 16px;
 }
 .icon-medium {
+    width: 20px;
+    height: 20px;
 }
 .icon-large {
+    width: 24px;
+    height: 24px;
 }
 
 /* Messages */
@@ -806,7 +812,6 @@ main {
     color: var(--fc-normal);
     border: 1px solid var(--border-color);
 }
-
 .btn-secondary:hover {
     background-color: var(--btn-primary-clr);
     color: var(--fc-lightest);
@@ -840,7 +845,6 @@ main {
 .btn-danger {
     color: var(--error-color);
 }
-
 .btn-danger:hover {
     background-color: var(--error-color);
     color: var(--fc-lightest);
@@ -864,7 +868,7 @@ main {
     border-color: var(--fc-darker);
 }
 
-/* Icon BTN */
+/* BTN with Icon and text */
 .btn-with-icon {
     padding-left: 14px;
     padding-right: 14px;
@@ -872,6 +876,37 @@ main {
     align-items: center;
     justify-content: space-between;
     gap: 6px;
+    fill: var(--svg-clr-dark);
+}
+.btn-with-icon svg {
+    width: 16px;
+    height: 16px;
+}
+.btn-with-icon-active svg {
+    fill: var(--svg-clr-darker);
+}
+.btn-with-icon-active:hover svg {
+    fill: var(--svg-clr-darker);
+}
+
+/* BTN with icon only */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    padding: 4px;
+}
+.btn-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--svg-clr-normal);
+}
+.btn-icon:hover svg {
+    fill: var(--svg-clr-darker);
+}
+.btn-icon-active svg {
+    fill: var(--svg-clr-darker);
 }
 
 /* Inputs */
@@ -1159,12 +1194,6 @@ h6 {
 .markdown a:hover {
     color: var(--accent-color-darker);
     text-decoration: underline;
-}
-
-.markdown ol {
-}
-
-.markdown ul {
 }
 
 .markdown blockquote {
