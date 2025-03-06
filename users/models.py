@@ -13,6 +13,11 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
+    profile_banner = models.ImageField(
+        upload_to="profile_banners/",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.fullname or self.user.username

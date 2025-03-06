@@ -8,7 +8,10 @@
 
 <!-- Banner -->
 <div class="profile-banner mb-1">
-    <img src="" alt="" />
+    <!-- Profile Banner -->
+    {% if profile.profile_banner %}
+    <img src="{{ profile.profile_banner.url }}" alt="{{profile.user.username}}-banner"/>
+    {% endif %}
 </div>
 
 <!-- Profile Detail -->
