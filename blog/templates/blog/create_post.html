@@ -23,11 +23,11 @@
         {% csrf_token %}
         <!-- Cover Image -->
         <div class="form-field-group">
-            <label for="file-upload" class="form-field-label">Cover Image <span>(Optional)</span></label>
+            <label for="fileUploadCover" class="form-field-label">Cover Image <span>(Optional)</span></label>
 
             <!-- Field -->
             <div class="form-field-container">
-                <label for="file-upload" id="fileUpload" class="btn btn-tertiary">Upload File</label>
+                <label for="fileUploadCover" id="" class="btn btn-tertiary">Upload File</label>
                 {{form.cover_image}}
                 <p class="file-upload-name" id="filename"></p>
             </div>

@@ -8,7 +8,7 @@ class BlogPostForm(forms.ModelForm):
 
         self.fields["cover_image"].widget = forms.widgets.FileInput(
             attrs={
-                "id": "file-upload",
+                "id": "fileUploadCover",
                 "class": "hidden",
                 "onchange": "sub(this)",
                 "required": False,
