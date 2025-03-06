@@ -127,8 +127,15 @@ def blog_detail(request, slug):
 
     # User Not Yet Deleted?
     if post.author:
-        # User's 4 Other Posts
-        user_posts = list(post.author.posts.all())
+        # Get author's post IDs
+        blogpost_ids = post.author.posts.values_list("id", flat=True)
+
+        # Choose 4 (or less) random posts
+        if len(blogpost_ids) > 4:
+            random_ids = random.sample(list(blogpost_ids), 4)
+            user_posts = post.author.posts.filter(id__in=random_ids)
+        else:
+            user_posts = post.author.posts.all()
 
         # Check if already following
         if request.user.is_authenticated:
