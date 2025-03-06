@@ -8,9 +8,17 @@ class ProfileForm(ModelForm):
 
         self.fields["profile_picture"].widget = widgets.FileInput(
             attrs={
-                "id": "file-upload",
+                "id": "fileUploadPicture",
                 "class": "hidden",
-                "onchange": "sub(this)",
+                "onchange": "sub(this, 'filenamePicture')",
+                "required": False,
+            }
+        )
+        self.fields["profile_banner"].widget = widgets.FileInput(
+            attrs={
+                "id": "fileUploadBanner",
+                "class": "hidden",
+                "onchange": "sub(this, 'filenameBanner')",
                 "required": False,
             }
         )
@@ -26,4 +34,4 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ["profile_picture", "fullname", "bio"]
+        fields = ["profile_picture", "profile_banner", "fullname", "bio"]

@@ -17,15 +17,35 @@
     <form class="form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- Profile Picture -->
+        <!-- Profile Banner -->
         <div class="form-field-group">
-            <label for="file-upload" class="form-field-label">Profile Picture <span>(Optional)</span></label>
+            <label for="fileUploadBanner" class="form-field-label">Profile Banner <span>(Optional)</span></label>
 
             <!-- Field -->
             <div class="form-field-container">
-                <label for="file-upload" id="fileUpload" class="btn btn-tertiary">Upload File</label>
+                <label for="fileUploadBanner" id="" class="btn btn-tertiary">Upload File</label>
+                {{form.profile_banner}}
+                <p class="file-upload-name" id="filenameBanner">{{form.profile_banner.value}}</p>
+            </div>
+            <!-- Errors -->
+            {% if form.profile_banner.errors %}
+            <!-- IF errors -->
+            <div class="form-field-error-group">
+                <!-- First error only -->
+                <span>{{ form.profile_banner.errors|first }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="form-field-group">
+            <label for="fileUploadPicture" class="form-field-label">Profile Picture <span>(Optional)</span></label>
+
+            <!-- Field -->
+            <div class="form-field-container">
+                <label for="fileUploadPicture" id="" class="btn btn-tertiary">Upload File</label>
                 {{form.profile_picture}}
-                <p class="file-upload-name" id="filename">{{form.profile_picture.value}}</p>
+                <p class="file-upload-name" id="filenamePicture">{{form.profile_picture.value}}</p>
             </div>
             <!-- Errors -->
             {% if form.profile_picture.errors %}
@@ -76,9 +96,9 @@
     <script>
         // For Custom File Upload Buttons
         // It changes the innerHTML of id=filename element
-        function sub(obj) {
+        function sub(obj, filename_element) {
             let filename = obj.value.split("\\");
-            document.getElementById("filename").innerHTML = filename[filename.length - 1];
+            document.getElementById(filename_element).innerHTML = filename[filename.length - 1];
             // document.myForm.submit();
             event.preventDefault();
         }
