@@ -8,7 +8,7 @@
 <!-- Blog Post -->
 {% block content %}
 <!-- Post Info -->
-<div class="flex flex-column">
+<div class="flex flex-column mb-1">
     <div class="flex align-center justify-between mb-half">
         <p class="fs-small fc-light">Published on {{post.created_at|date:"F d, Y"}}</p>
         <!-- Actions Buttons -->
@@ -73,48 +73,6 @@
     </div>
 </div>
 
-<!-- Metadata -->
-<div class="flex justify-between mt-1 mb-half">
-    <span class="card-likes-comments">
-        <span class="icon-text-container">
-            <form action="{% url 'like_post' post.slug %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Like" />
-            </form>
-            <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
-            {{post.likes.count}}
-        </span>
-        <span class="icon-text-container">
-            <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
-            {{post.comments.count}}
-        </span>
-    </span>
-
-    <!-- Action Buttons -->
-    <div class="flex gap-10">
-        <!-- Save Post -->
-        <form action="{% url 'save_post' post.slug %}" method="post">
-            {% csrf_token %} {% if post_saved %}
-            <button class="btn btn-tertiary btn-with-icon">
-                <img src="{% static 'icons/icons8_bookmark.svg' %}" alt="" class="icon icon-small" />
-                Saved
-            </button>
-            {% else %}
-            <button type="submit" class="btn btn-tertiary btn-with-icon">
-                <img src="{% static 'icons/icons8_bookmark_1.svg' %}" alt="" class="icon icon-small" />
-                Save
-            </button>
-            {% endif %}
-        </form>
-
-        <!-- Share Post -->
-        <button class="btn btn-tertiary btn-with-icon">
-            <img src="{% static 'icons/icons8_Share_1.svg' %}" alt="" class="icon icon-small" />
-            Share
-        </button>
-    </div>
-</div>
-
 <hr />
 
 <!-- Post Content Container (MARKDOWN) -->
@@ -140,15 +98,17 @@
 <hr />
 <div class="flex justify-between mt-half mb-half">
     <span class="card-likes-comments">
-        <!-- Likes -->
-        <span class="icon-text-container">
-            <form action="{% url 'like_post' post.slug %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Like" />
-            </form>
-            <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+        <!-- Like (Icon Button) -->
+        <form action="{% url 'like_post' post.slug %}" method="post" class="icon-text-container">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-icon {% if post_liked %}btn-icon-active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+                    <path
+                        d="M16.5,3C13.605,3,12,5.09,12,5.09S10.395,3,7.5,3C4.462,3,2,5.462,2,8.5c0,4.171,4.912,8.213,6.281,9.49 C9.858,19.46,12,21.35,12,21.35s2.142-1.89,3.719-3.36C17.088,16.713,22,12.671,22,8.5C22,5.462,19.538,3,16.5,3z" />
+                </svg>
+            </button>
             {{post.likes.count}}
-        </span>
+        </form>
 
         <!-- Comments -->
         <span class="icon-text-container">
@@ -157,18 +117,26 @@
         </span>
     </span>
 
-    <!-- Action Buttons -->
+    <!-- Save/Share Buttons -->
     <div class="flex gap-10">
         <!-- Save Post -->
         <form action="{% url 'save_post' post.slug %}" method="post">
-            {% csrf_token %} {% if post_saved %}
-            <button class="btn btn-tertiary btn-with-icon">
-                <img src="{% static 'icons/icons8_bookmark.svg' %}" alt="" class="icon icon-small" />
+            {% csrf_token %}
+            <!-- Already Saved? -->
+            {% if post_saved %}
+            <button class="btn btn-tertiary btn-with-icon btn-with-icon-active">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+                    <path
+                        d="M6 2C5.861875 2 5.7278809 2.0143848 5.5976562 2.0410156C4.686084 2.2274316 4 3.033125 4 4L4 22L12 19L20 22L20 4C20 3.8625 19.985742 3.7275391 19.958984 3.5976562C19.799199 2.8163086 19.183691 2.2008008 18.402344 2.0410156C18.272119 2.0143848 18.138125 2 18 2L6 2 z" />
+                </svg>
                 Saved
             </button>
             {% else %}
             <button type="submit" class="btn btn-tertiary btn-with-icon">
-                <img src="{% static 'icons/icons8_bookmark_1.svg' %}" alt="" class="icon icon-small" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+                    <path
+                        d="M6.0097656 2C4.9143111 2 4.0097656 2.9025988 4.0097656 3.9980469L4 22L12 19L20 22L20 20.556641L20 4C20 2.9069372 19.093063 2 18 2L6.0097656 2 z M 6.0097656 4L18 4L18 19.113281L12 16.863281L6.0019531 19.113281L6.0097656 4 z" />
+                </svg>
                 Save
             </button>
             {% endif %}
@@ -176,7 +144,11 @@
 
         <!-- Share Post -->
         <button class="btn btn-tertiary btn-with-icon">
-            <img src="{% static 'icons/icons8_Share_1.svg' %}" alt="" class="icon icon-small" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="96" height="96">
+                <path
+                    d="M16.707031 2.2929688L15.292969 3.7070312L17.585938 6L17 6C10.936593 6 6 10.936593 6 17L6 18L8 18L8 17C8 12.017407 12.017407 8 17 8L17.585938 8L15.292969 10.292969L16.707031 11.707031L21.414062 7L16.707031 2.2929688 z M 2 8L2 9L2 19C2 20.64497 3.3550302 22 5 22L19 22C20.64497 22 22 20.64497 22 19L22 18L22 17L20 17L20 18L20 19C20 19.56503 19.56503 20 19 20L5 20C4.4349698 20 4 19.56503 4 19L4 9L4 8L2 8 z" />
+            </svg>
+
             Share
         </button>
     </div>
