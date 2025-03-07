@@ -642,7 +642,6 @@ main {
     flex-direction: column;
     gap: 10px;
     /* border: 1px solid; */
-    margin: 1rem 0;
 }
 
 /* Footer Styling */

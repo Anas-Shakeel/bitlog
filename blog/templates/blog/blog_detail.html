@@ -76,22 +76,30 @@
 <hr />
 
 <!-- Post Content Container (MARKDOWN) -->
-<div class="content-container markdown">{{post.content|markdownify|safe}}</div>
+<div class="content-container mt-1 mb-2 markdown">{{post.content|markdownify|safe}}</div>
 <!-- Post END -->
+
+<!-- Category -->
+{% if post.category %}
+<div class="card-footer mb-1">
+    <span>
+        Category:
+        <a href="{% url 'category' post.category.slug %}" class="tag-pill">{{post.category}}</a>
+    </span>
+</div>
+{% endif %}
 
 <!-- Tags -->
 {% if post.tags.all %}
 <div class="card-footer mb-1">
-    <!-- Iterate tags -->
-    {% for tag in post.tags.all %}
-    <a class="tag-pill" href="#">{{tag.name}}</a>
-    {% endfor %}
+    <span>
+        Tags:
+        <!-- Iterate tags -->
+        {% for tag in post.tags.all %}
+        <a class="tag-pill" href="#">{{tag.name}}</a>
+        {% endfor %}
+    </span>
 </div>
-{% endif %}
-
-<!-- Category -->
-{% if post.category %}
-<p>Category: {{post.category}}</p>
 {% endif %}
 
 <!-- Metadata -->
