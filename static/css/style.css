@@ -196,7 +196,7 @@ body {
     color: var(--accent-color);
 }
 
-.nav-link-container {
+.navlink-container {
     display: flex;
     align-items: center;
     gap: 1.25rem;
@@ -213,6 +213,45 @@ body {
 }
 .navlink-active {
     color: var(--navlink-primary-clr);
+}
+
+.navlink-profile-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 3.5rem;
+    right: 1rem;
+    background-color: var(--app-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    overflow: hidden;
+}
+.dropdown-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-small);
+    color: var(--fc-normal);
+}
+.dropdown-menu .dropdown-link:hover {
+    background-color: var(--secondary-color);
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
 }
 
 /* Main Styling */
