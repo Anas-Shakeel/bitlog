@@ -1,0 +1,55 @@
+{% load static %}
+
+<!-- Card -->
+<div class="card-compact">
+    <div class="flex flex-column gap-10">
+        <!-- Image -->
+        <div class="card-compact-img-container">
+            {% if user_post.cover_image %}
+            <img src="{{user_post.cover_image.url}}" alt="{{user_post.slug}}-cover" class="" />
+            {% else %}
+            <img src="{% static 'icons/default-image.png' %}" alt="{{user_post.slug}}-cover" class="" />
+            {% endif %}
+        </div>
+
+        <!-- Info -->
+        <div class="flex flex-column gap-5">
+            <!-- Title -->
+            <a href="{% url 'blog_detail' user_post.slug %}" class="card-title fw-bold"
+                >{{user_post.title|truncatechars:70}}</a
+            >
+
+            <!-- Caption -->
+            <p class="card-caption">
+                {% if user_post.caption %}
+                <!-- Only if caption available -->
+                {{user_post.caption|truncatechars:70}} {% else %}
+                <!-- Default -->
+                No Caption. {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="card-content-meta-container">
+        <span class="card-likes-comments">
+            <!-- Likes -->
+            <span class="icon-text-container">
+                <form action="{% url 'like_post' user_post.slug %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Like" />
+                </form>
+                <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
+                {{user_post.likes.count}}
+            </span>
+
+            <!-- Comments -->
+            <span class="icon-text-container">
+                <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
+                {{user_post.comments.count}}
+            </span>
+        </span>
+
+        <span>{{user_post.created_at|date:"F d, Y"}}</span>
+    </div>
+</div>
