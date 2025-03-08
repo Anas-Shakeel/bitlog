@@ -78,7 +78,7 @@
     <div class="card-footer">
         <!-- Iterate tags -->
         {% for tag in post.tags.all %}
-        <a class="tag-pill" href="#">{{tag.name}}</a>
+        <a class="tag-pill" href="{% url 'explore_tag' tag.name %}">{{tag.name}}</a>
         {% endfor %}
     </div>
     {% endif %}

@@ -39,12 +39,12 @@
 <!-- Categories -->
 <div class="mt-1">
     <!-- All Category -->
-    <a href="{% url 'explore' %}" class="tag-pill {% if not category_slug %}tag-pill-active{% endif %}">All</a>
+    <a href="{% url 'explore' %}" class="tag-pill {% if not category_slug and not tag_slug %}tag-pill-active{% endif %}">All</a>
 
     <!-- Iterate Categories -->
     {% for category in categories %}
     <a
-        href="{% url 'category' category.slug %}"
+        href="{% url 'explore_category' category.slug %}"
         class="tag-pill {% if category_slug == category.slug %}tag-pill-active{% endif %}"
         >{{category.name}}</a
     >
