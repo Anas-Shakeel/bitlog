@@ -35,10 +35,6 @@
         <span class="card-likes-comments">
             <!-- Likes -->
             <span class="icon-text-container">
-                <form action="{% url 'like_post' user_post.slug %}" method="post">
-                    {% csrf_token %}
-                    <input type="submit" value="Like" />
-                </form>
                 <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
                 {{user_post.likes.count}}
             </span>
