@@ -61,8 +61,7 @@ def explore(request):
     )
 
 
-# Not in USE (kept as backup)
-def category(request, slug):
+def explore_category(request, slug):
     posts = BlogPost.objects.filter(category__slug=slug.lower())
 
     # Get all categories
@@ -85,6 +84,32 @@ def category(request, slug):
             "categories": categories,
             "category_slug": slug,
             # "all_posts_count": BlogPost.objects.count(),
+        },
+    )
+
+
+def explore_tag(request, slug):
+    posts = BlogPost.objects.filter(tags__name=slug.lower())
+
+    # Get all categories
+    categories = Category.objects.all()
+
+    # Paginations
+    page_number = request.GET.get("page")
+    paginator = Paginator(posts, 20)  # 20 posts per page
+    page_obj = paginator.get_page(page_number)
+
+    # Create the page range
+    page_range = create_page_range(list(paginator.page_range), page_obj.number, 5)
+
+    return render(
+        request,
+        "blog/explore.html",
+        {
+            "page_obj": page_obj,
+            "page_range": page_range,
+            "categories": categories,
+            "tag_slug": slug,
         },
     )
 
