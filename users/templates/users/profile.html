@@ -10,7 +10,7 @@
 <div class="profile-banner mb-1">
     <!-- Profile Banner -->
     {% if profile.profile_banner %}
-    <img src="{{ profile.profile_banner.url }}" alt="{{profile.user.username}}-banner"/>
+    <img src="{{ profile.profile_banner.url }}" alt="{{profile.user.username}}-banner" />
     {% endif %}
 </div>
 
@@ -81,6 +81,7 @@
 
         {% if profile.user == request.user %}
         <button class="btn btn-tabs">Saved Posts ({{profile.user.save_set.count}})</button>
+        <button class="btn btn-tabs">Reading History ({{profile.user.readinghistory_set.count}})</button>
         {% endif %}
         <span class="tabs-hr"></span>
     </div>
@@ -88,9 +89,7 @@
     <!-- Tab Containers -->
     <div class="profile-tab-container">
         <!-- Posts -->
-        <div class="">
-            {% for post in profile.user.posts.all %} {% include "components/card.html" %} {% endfor %}
-        </div>
+        <div class="">{% for post in profile.user.posts.all %} {% include "components/card.html" %} {% endfor %}</div>
 
         <!-- Pagination -->
         <div class="pagination-container">

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPost, Tag, Category, Like, Comment, Save
+from .models import BlogPost, Tag, Category, Like, Comment, Save, ReadingHistory
 
 
 @admin.register(BlogPost)
@@ -36,5 +36,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Save)
 class SaveAdmin(admin.ModelAdmin):
+    list_display = ("user", "post", "created_at")
+    list_filter = ("user", "created_at")
+
+@admin.register(ReadingHistory)
+class ReadingHistoryAdmin(admin.ModelAdmin):
     list_display = ("user", "post", "created_at")
     list_filter = ("user", "created_at")

@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.http import HttpRequest
 
-from .models import BlogPost, Category, Tag, Comment, Save
+from .models import BlogPost, Category, Tag, Comment, Save, ReadingHistory
 from .forms import BlogPostForm, CommentForm
 
 from .helpers import create_page_range
@@ -173,6 +173,23 @@ def blog_detail(request, slug):
         saved = post.saves.filter(user=request.user)
         liked = post.likes.filter(user=request.user)
 
+        # Add Post to Reading History
+
+        # User must be logged in :CHECK
+        # Post must not belong to USER itself :CHECK
+        # Post has to be available :CHECK
+        # Post must not already be added to History
+
+        if request.user != post.author:
+            # Check if user already Saved it
+            reading_history, created = post.history.get_or_create(
+                user_id=request.user.id
+            )
+            # save, if not!
+            if created:
+                reading_history.post = post
+                reading_history.save()
+
     form = CommentForm()
     return render(
         request,
@@ -324,7 +341,7 @@ def save_post(request, slug):
     return redirect("blog_detail", slug=slug)
 
 
-# Delete Saved post
+# Delete Saved post (Not Used!)
 @login_required(login_url="/accounts/login/")
 def delete_saved(request, slug):
     blog = get_object_or_404(BlogPost, slug=slug)
