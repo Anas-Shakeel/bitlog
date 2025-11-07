@@ -88,7 +88,7 @@
 
         <!-- Action Buttons -->
         <div class="form-action-group mt-1 mb-2">
-            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-tertiary">Discard</a>
+            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-tertiary">Cancel</a>
             <button type="submit" class="btn btn-primary">Update Profile</button>
         </div>
     </form>
@@ -99,18 +99,9 @@
         function sub(obj, filename_element) {
             let filename = obj.value.split("\\");
             document.getElementById(filename_element).innerHTML = filename[filename.length - 1];
-            // document.myForm.submit();
             event.preventDefault();
         }
     </script>
 </div>
 
 {% endblock content %}
-
-<!-- ORIGINAL -->
-<div>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %} {{form.as_p}}
-        <input type="submit" value="Save Changes" />
-    </form>
-</div>

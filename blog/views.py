@@ -174,12 +174,6 @@ def blog_detail(request, slug):
         liked = post.likes.filter(user=request.user)
 
         # Add Post to Reading History
-
-        # User must be logged in :CHECK
-        # Post must not belong to USER itself :CHECK
-        # Post has to be available :CHECK
-        # Post must not already be added to History
-
         if request.user != post.author:
             # Check if user already Saved it
             reading_history, created = post.history.get_or_create(

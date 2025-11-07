@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from blog.helpers import create_page_range
 
 from .models import Profile, Subscription
 from .forms import ProfileForm
@@ -19,14 +21,40 @@ def profile_view(request, username):
     followings = profile.user.followings.all()
     already_following = user.followers.filter(follower_id=request.user.id)
 
+    # Paginations
+    user_posts = profile.user.posts.all()
+    page_number = request.GET.get("page")
+    paginator = Paginator(user_posts, 20)  # 20 posts per page
+    page_obj = paginator.get_page(page_number)
+
+    # Create the page range
+    page_range = create_page_range(list(paginator.page_range), page_obj.number, 5)
+
     return render(
         request,
         "users/profile.html",
         {
             "profile": profile,
+            "page_obj": page_obj,
+            "page_range": page_range,
             "followers": followers,
             "followings": followings,
             "already_following": already_following,
+            "show_author": "false",
+        },
+    )
+
+
+@login_required(login_url="/accounts/login/")
+def profile_saved_view(request):
+    # Get the saved of user
+    saved_posts = request.user.save_set.all()
+
+    return render(
+        request,
+        "snippets/profile_saved_posts.html",
+        {
+            "page_obj": saved_posts,
         },
     )
 

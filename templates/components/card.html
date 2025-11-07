@@ -3,7 +3,8 @@
 <!-- Card -->
 <div class="card">
     <!-- Only show author if asked to... -->
-    {% if show_author %}
+    <!-- show_author == "anything" ? Show: else Don't -->
+    {% if not show_author %}
 
     <!-- Author Available? -->
     {% if post.author %}
