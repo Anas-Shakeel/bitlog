@@ -263,10 +263,65 @@ main {
 
 .container {
     min-width: 70vw;
-    max-width: 74vw;
-    /* min-width: 70vw; */
     /* max-width: 74vw; */
+    max-width: 84vw;
     padding-top: 30px;
+}
+
+/* Home Styling */
+.home-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    margin-top: -10px;
+    /* background: #000; */
+}
+
+.home-text-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    gap: 50px;
+
+    /* background-color: #30bf5b; */
+}
+
+.home-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 14pt;
+}
+
+.home-hero > h1 {
+    font-size: clamp(2rem, 5vw + 1rem, 5rem);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.home-hero > p {
+    max-width: 80%;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--fc-light);
+}
+
+.home-img-container {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    overflow: hidden;
+    /* background-color: #262626; */
+}
+.home-img-container > img {
+    background-size: cover;
+    width: 100%;
+    /* height: 100%; */
+    /* aspect-ratio: 19/6; */
+    object-fit: contain;
 }
 
 /* Authentication Styling (Login/Signup) */
@@ -893,6 +948,21 @@ main {
 }
 .btn-danger:hover {
     background-color: var(--error-color);
+    color: var(--fc-lightest);
+}
+
+/* Home CTA button */
+.btn-home-cta {
+    font-size: var(--fs-medium);
+    background-color: var(--btn-primary-clr);
+    border-radius: 100px;
+    color: var(--fc-lightest);
+}
+.btn-home-cta:active {
+    background-color: var(--accent-color-darker);
+}
+.btn-home-cta-active {
+    background-color: var(--accent-color-darker);
     color: var(--fc-lightest);
 }
 

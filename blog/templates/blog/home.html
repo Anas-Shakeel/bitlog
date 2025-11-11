@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 
 <!-- Title -->
 {% block title %}Home{% endblock title %}
@@ -6,7 +7,26 @@
 <!-- Content -->
 {% block content %}
 
-<h1>Welcome to Bitlog.</h1>
-<p>A blogging platform for everyone.</p>
+<div class="home-container">
+
+    <div class="home-text-container">
+        <div class="home-hero">
+            <!-- <h1>Share ideas that inspire the world</h1> -->
+            <h1>Bits of Thought. Logs of Insight.</h1>
+            <!-- <p>Write your stories your way and discover voices that move you.</p> -->
+            <p>Join a community that values thoughtful stories</p>
+        </div>
+
+        <!-- Call-to-action (CTA) -->
+        <div>
+            <a href="{% url 'explore' %}" class="btn btn-home-cta">Start reading</a>
+        </div>
+    </div>
+
+    <div class="home-img-container">
+        <img src="{% static 'images/hero.jpg' %}" alt="">
+    </div>
+
+</div>
 
 {% endblock content %}
