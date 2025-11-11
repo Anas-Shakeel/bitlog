@@ -1,0 +1,13 @@
+{% if page_obj %}
+<div class="">
+    <!-- Iterate blogs -->
+    {% for post in page_obj %} {% include "components/card.html" %} {% endfor %}
+    
+    <!-- Pagination -->
+    {% include "components/pagination.html" %}
+</div>
+{% else %}
+<div class="flex align-center justify-center mt-2 mb-1">
+    <span class="fs-large fw-bold">No Results Found.</span>
+</div>
+{% endif %}
