@@ -25,8 +25,8 @@
         {% endif %}
     </div>
 
-    <div>
-        <h1 class="heading-main">{{post.title}}</h1>
+    <div class="mb-1">
+        <h1 class="heading-post mb-1">{{post.title}}</h1>
         <!-- Only if caption available -->
         <p>{% if post.caption %} {{post.caption}} {% else %} No Caption. {% endif %}</p>
     </div>
@@ -76,7 +76,7 @@
 <hr />
 
 <!-- Post Content Container (MARKDOWN) -->
-<div class="content-container mt-1 mb-2 markdown">{{post.content|markdownify|safe}}</div>
+<div class="content-container mt-2 mb-2 markdown">{{post.content|markdownify|safe}}</div>
 <!-- Post END -->
 
 <!-- Category -->

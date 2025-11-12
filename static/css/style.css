@@ -647,13 +647,17 @@ main {
 .card-content-meta-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 1.35em;
 }
 
 .card-likes-comments {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+.card-date {
+    color: var(--fc-light);
+    font-style: italic;
 }
 
 .icon-text-container {
@@ -1267,6 +1271,13 @@ main {
 }
 
 /* Markdown Styling */
+.markdown {
+    font-size: var(--fs-large);
+    line-height: 1.5em;
+
+    /* gap: 1em; */
+}
+
 .markdown h1,
 h2,
 h3,
@@ -1274,6 +1285,7 @@ h4,
 h5,
 h6 {
     color: var(--heading-main-clr);
+    margin-top: 1em;
 }
 
 .markdown h1 {

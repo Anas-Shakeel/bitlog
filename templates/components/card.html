@@ -50,17 +50,20 @@
 
             <!-- Metadata -->
             <div class="card-content-meta-container">
+                <span class="card-date">{{post.created_at|date:"M d, Y"}}</span>
                 <span class="card-likes-comments">
+                    <!-- Likes -->
                     <span class="icon-text-container">
                         <img src="{% static 'icons/icons8_heart.svg' %}" alt="" />
                         {{post.likes.count}}
                     </span>
+                    <!-- Comments -->
                     <span class="icon-text-container">
                         <img src="{% static 'icons/icons8_topic.svg' %}" alt="" />
                         {{post.comments.count}}
                     </span>
                 </span>
-                <span>{{post.created_at|date:"F d, Y"}}</span>
+                
             </div>
         </div>
 
