@@ -1,6 +1,6 @@
 # Bitlog
 
-A blogging platform made in django.
+A blogging platform made in django. _(This is a hobby project, **not** production-ready.)_
 
 ### Assets and Credits
 
