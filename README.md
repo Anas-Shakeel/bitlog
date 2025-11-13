@@ -4,6 +4,10 @@ A blogging platform made in django. _(This is a hobby project, **not** productio
 
 A full-featured blogging platform built with `Django`. This project is a _hobby project_ showcasing a variety of common social blogging features, designed to demonstrate full-stack web development skills in Python and Django.
 
+[![Bitlog Demo](assets/bitlog-screenshot.png)](https://www.youtube.com/watch?v=Oq5Ex0myzlU)
+
+Watch a [short demo on youtube](https://www.youtube.com/watch?v=Oq5Ex0myzlU).
+
 ## Features
 
 -   **Posts:** Create, Read, Update, Delete (CRUD)
